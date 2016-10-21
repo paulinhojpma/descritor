@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+ <title>Descritor</title>
+</h:head>
+<h:body>
+<h:messages errorStyle="color:red" infoStyle="color:blue" autoUpdate="true" closable="true" style="font-size: 12px; margin-left: 250px; background:  #ffff66" for="form:file" />
+<h:form  style="margin: 250px 500px;  width: 150%;" id="form" enctype="multipart/form-data">
+  <h:inputFile  style="border: 3px solid green; padding: 10px; " id="file" value="#{recebeArquivo.fluxo}"  validator="#{recebeArquivo.validarArquivo}" required="true" />
+  <br/>
+  <h:commandButton value="Upload"
+      action="#{recebeArquivo.upload}"/>
+</h:form>
+</h:body>
+</html>

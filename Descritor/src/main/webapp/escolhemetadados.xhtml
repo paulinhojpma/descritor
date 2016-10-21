@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+ <title>Descritor</title>
+</h:head>
+<h:body>#{escolheMetadados.msg()}
+<h:form id="metadados">
+	<p:panel header="Palavra chave" style="width:65%;">
+	<p:selectManyMenu value="#{escolheMetadados.pulin}" id="assunto" required="true"> 
+	<f:selectItems value="#{escolheMetadados.pulin}" var="met" itemLabel="#{met}" itemValue="#{met}"/>
+	
+	</p:selectManyMenu>
+	
+	</p:panel>
+</h:form>
+
+
+
+</h:body>
+</html>

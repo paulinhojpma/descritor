@@ -1,0 +1,24 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/" >
+  <rdf:Description rdf:about="http://www.ifpb.edu.br/membros.xml/Group/member1">
+    <foaf:mbox>ayrton@gmail.com</foaf:mbox>
+    <foaf:name>Ayrton Nadgel</foaf:name>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.ifpb.edu.br/membros.xml/Group/member0">
+    <foaf:mbox>lucachaves@gmail.com</foaf:mbox>
+    <foaf:name>Luiz Carlos Rodrigues Chaves</foaf:name>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.ifpb.edu.br/membros.xml/Group">
+    <foaf:member rdf:resource="http://www.ifpb.edu.br/membros.xml/Group/member2"/>
+    <foaf:member rdf:resource="http://www.ifpb.edu.br/membros.xml/Group/member1"/>
+    <foaf:member rdf:resource="http://www.ifpb.edu.br/membros.xml/Group/member0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.ifpb.edu.br/membros.xml/Group/member2">
+    <foaf:mbox>amanda@gmail.com</foaf:mbox>
+    <foaf:name>Amanda Lopes</foaf:name>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.ifpb.edu.br/membros.xml">
+    <foaf:Group rdf:resource="http://www.ifpb.edu.br/membros.xml/Group"/>
+  </rdf:Description>
+</rdf:RDF>
