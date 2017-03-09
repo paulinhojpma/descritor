@@ -1,0 +1,15 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix response: <http://www.bbc.co.uk/ontologies/response/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix api: <http://www.bbc.co.uk/ontologies/api/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix core: <http://www.bbc.co.uk/ontologies/coreconcepts/>.
+@prefix tagging: <http://www.bbc.co.uk/ontologies/tagging/>.
+@prefix dbpedia: <http://dbpedia.org/resource/>.
+
+<http://www.bbc.co.uk/things/2166d5db-3cd1-4d8a-a066-bddb220ef216#id> a core:Person, core:Thing, tagging:TagConcept;
+    core:disambiguationHint "Computer Scientist"^^xsd:string;
+    core:label "Sir Tim Berners-Lee"@en-gb;
+    core:preferredLabel "Sir Tim Berners-Lee"^^xsd:string;
+    core:primaryTopicOf <http://en.wikipedia.org/wiki/Tim_Berners-Lee>;
+    core:sameAs dbpedia:Tim_Berners-Lee.

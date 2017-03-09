@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+ <title>Descritor</title>
+<h:outputStylesheet library="css" name="descritor1.css" target="body" />
+
+
+</h:head>
+<h:body>
+<script>
+function add() {
+ 	var x= document.getElementById("metadados:keyword_input").selectedIndex;
+	var obj=document.getElementById("metadados:keyword_input").item(x);
+	var sel=document.getElementById("metadados:text");
+	
+	sel.value= obj.value;
+	document.getElementById("metadados:keyword_input").remove(document.getElementById("metadados:assunto_input").selectedIndex);
+}
+
+function addTema() {
+ 	var x= document.getElementById("metadados:tema_input").selectedIndex;
+	var obj=document.getElementById("metadados:tema_input").item(x);
+	var sel=document.getElementById("metadados:textoTema");
+	
+	sel.value= obj.value;
+	
+}
+
+</script>
+<h:form id="metadados" enctype="multipart/form-data">
+	
+	<div class="containerMetadadoDescritivo">
+	<p class="faixa">KeyWords </p>
+	<div style="float: left;">
+	<h:inputText class="texto" id="text" value="#{escolheMetadados.keyword[0]}"></h:inputText>
+	<input type="button" id="+" value="+" onclick="add()" ></input><br/>
+	<h:inputText class="texto" id="text1" value="#{escolheMetadados.keyword[1]}"></h:inputText><br/>
+	<h:inputText class="texto" id="text2" value="#{escolheMetadados.keyword[2]}"></h:inputText><br/>
+	<h:inputText class="texto" id="text3" value="#{escolheMetadados.keyword[3]}"></h:inputText><br/>
+	<h:inputText class="texto" id="text4" value="#{escolheMetadados.keyword[4]}"></h:inputText>
+	</div>
+	<div style="float: right;">
+	
+	<p:selectManyMenu style="margin-right: 50px; width: 350px; "  value="#{escolheMetadados.sugestKeyword}" id="keyword" required="true"> 
+	<f:selectItems value="#{escolheMetadados.sugestKeyword}" var="met" itemLabel="#{met}" itemValue="#{met}"/>
+	
+	</p:selectManyMenu>
+	</div>
+	</div>
+	<div class="containerMetadadoDescritivo">
+	<p class="faixa">Theme</p>
+			<div style="float: left;">
+			<h:inputText class="texto" id="textoTema" value="#{escolheMetadados.tema}"></h:inputText>
+			<input type="button" id="+" value="+" onclick="addTema()" ></input><br/>
+			
+			</div>
+			<div style="float: right;">
+			
+			<p:selectManyMenu style="margin-right: 50px; width: 350px; "  value="#{escolheMetadados.sugestTema}" id="tema" required="true"> 
+			<f:selectItems value="#{escolheMetadados.sugestTema}" var="met" itemLabel="#{met}" itemValue="#{met}"/>
+			
+			</p:selectManyMenu>
+			</div>
+		 
+	</div>
+	
+ <h:commandButton class="button" value="Generate"  action ="#{escolheMetadados.gerarArquivo()}">	 </h:commandButton>
+</h:form>
+
+
+
+</h:body>
+</html>
