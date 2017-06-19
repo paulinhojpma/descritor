@@ -4,15 +4,26 @@ body{
 	color: #d9d9d9;
 }
 
-form {
-	margin: 250px 500px; 
+div {
+	margin: 25px 450px 25px 450px; 
 	width: 400px;
 	height: 150px;
 	border-radius: 5px;
 	border-color: #d9d9d9;
 	border-style: solid;
 }
-
+h1{
+	margin-left: 525px;
+	color: #b3b3b3;
+}
+.inputText{
+	width: 300px; 
+	height: 30px; 
+	font-family: 
+	monospace; 
+	font-size: x-large; 	
+	color: #d9d9d9;
+}
 .faixa{
 	background-color: #5cd65c;
 	color: white;

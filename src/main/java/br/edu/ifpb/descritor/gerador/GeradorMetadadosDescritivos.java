@@ -7,13 +7,15 @@ import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 
+import br.edu.ifpb.descritor.arquivo.Arquivo;
 import br.edu.ifpb.descritor.metadados.Keyword;
 import br.edu.ifpb.descritor.metadados.MetadadoDescritivo;
 import br.edu.ifpb.descritor.metadados.Theme;
-
+import br.edu.ifpb.descritor.metadados.Title;
+import br.edu.ifpb.descritor.metadados.Distribution;
 public class GeradorMetadadosDescritivos {
 	private Model model;
-   
+    private Arquivo arquivo;
 	private List<MetadadoDescritivo> metadados;
 	
 	public GeradorMetadadosDescritivos(Model model){
@@ -21,6 +23,8 @@ public class GeradorMetadadosDescritivos {
 		metadados=new ArrayList<MetadadoDescritivo>();
 		addMetadadoDescritivo(new Keyword(this.model));
 		addMetadadoDescritivo(new Theme());
+		addMetadadoDescritivo(new Title());
+		addMetadadoDescritivo(new Distribution());
 		//Map<String, List<String>> palpites=gerarPalpites();			
 			
 		
@@ -34,7 +38,15 @@ public class GeradorMetadadosDescritivos {
 			
 			if(metadado.getClass().getName().equals("br.edu.ifpb.descritor.metadados.Theme")){
 				
-				((Theme)metadado).setTema(((Keyword)metadados.get(0)).getPalpites().get(0));
+				((Theme)metadado).setTemas(((Keyword)metadados.get(0)).getPalpites());
+			}
+			if(metadado.getClass().getName().equals("br.edu.ifpb.descritor.metadados.Title")){
+				((Title)metadado).setTitle(arquivo.getFilename());
+			}
+			
+			if(metadado.getClass().getName().equals("br.edu.ifpb.descritor.metadados.Distribution")){
+				((Distribution)metadado).setExtensao(arquivo.getFormato());
+				System.out.println("Entrou no distribution ---"+ ((Distribution)metadado).getExtensao());
 			}
 			palpites.put(metadado.getClass().getName(), metadado.gerarPalpite());
 			
@@ -63,5 +75,13 @@ public class GeradorMetadadosDescritivos {
 
 	public void setMetadados(List<MetadadoDescritivo> metadados) {
 		this.metadados = metadados;
+	}
+
+	public Arquivo getArquivo() {
+		return arquivo;
+	}
+
+	public void setArquivo(Arquivo arquivo) {
+		this.arquivo = arquivo;
 	}
 }

@@ -16,10 +16,10 @@
 </h:head>
 <h:body>
 <script>
-function add() {
+function add(id) {
  	var x= document.getElementById("metadados:keyword_input").selectedIndex;
 	var obj=document.getElementById("metadados:keyword_input").item(x);
-	var sel=document.getElementById("metadados:text");
+	var sel=document.getElementById(id);
 	
 	sel.value= obj.value;
 	document.getElementById("metadados:keyword_input").remove(document.getElementById("metadados:assunto_input").selectedIndex);
@@ -41,11 +41,15 @@ function addTema() {
 	<p class="faixa">KeyWords </p>
 	<div style="float: left;">
 	<h:inputText class="texto" id="text" value="#{escolheMetadados.keyword[0]}"></h:inputText>
-	<input type="button" id="+" value="+" onclick="add()" ></input><br/>
-	<h:inputText class="texto" id="text1" value="#{escolheMetadados.keyword[1]}"></h:inputText><br/>
-	<h:inputText class="texto" id="text2" value="#{escolheMetadados.keyword[2]}"></h:inputText><br/>
-	<h:inputText class="texto" id="text3" value="#{escolheMetadados.keyword[3]}"></h:inputText><br/>
+	<h:commandButton  class="buttonadd" id="addK1" value="+" onclick="add('metadados:text')" ></h:commandButton><br/>
+	<h:inputText class="texto" id="text1" value="#{escolheMetadados.keyword[1]}"></h:inputText>
+	<h:commandButton  class="buttonadd" id="addK2" value="+" onclick="add('metadados:text1')" ></h:commandButton><br/>
+	<h:inputText class="texto" id="text2" value="#{escolheMetadados.keyword[2]}"></h:inputText>
+	<h:commandButton  class="buttonadd" id="addK3" value="+" onclick="add('metadados:text2')" ></h:commandButton><br/>
+	<h:inputText class="texto" id="text3" value="#{escolheMetadados.keyword[3]}"></h:inputText>
+	<h:commandButton  class="buttonadd" id="addK4" value="+" onclick="add('metadados:text3')" ></h:commandButton><br/>
 	<h:inputText class="texto" id="text4" value="#{escolheMetadados.keyword[4]}"></h:inputText>
+	<h:commandButton  class="buttonadd" id="addK5" value="+" onclick="add('metadados:text4')" ></h:commandButton>
 	</div>
 	<div style="float: right;">
 	
@@ -58,20 +62,69 @@ function addTema() {
 	<div class="containerMetadadoDescritivo">
 	<p class="faixa">Theme</p>
 			<div style="float: left;">
-			<h:inputText class="texto" id="textoTema" value="#{escolheMetadados.tema}"></h:inputText>
-			<input type="button" id="+" value="+" onclick="addTema()" ></input><br/>
+			<p:inputText class="texto" id="textoTema" value="#{escolheMetadados.tema}"></p:inputText>
+			
+			<h:commandButton  class="buttonadd"  id="addT" value="+" onclick="addTema()"/>
+				 
 			
 			</div>
 			<div style="float: right;">
 			
-			<p:selectManyMenu style="margin-right: 50px; width: 350px; "  value="#{escolheMetadados.sugestTema}" id="tema" required="true"> 
-			<f:selectItems value="#{escolheMetadados.sugestTema}" var="met" itemLabel="#{met}" itemValue="#{met}"/>
+			<p:selectOneMenu style="margin-right: 50px; width: 350px; "  value="#{escolheMetadados.tema}" id="tema" required="true"> 
+				<f:selectItems value="#{escolheMetadados.sugestTema}" var="met" itemLabel="#{met}" itemValue="#{met}"/>
 			
-			</p:selectManyMenu>
+			</p:selectOneMenu>
 			</div>
 		 
 	</div>
 	
+	<div class="containerMetadadoDescritivo">
+	<p class="faixa">Title</p>
+			<div style="float: left;">
+			<h:inputText class="texto" id="textoTitle" value="#{escolheMetadados.sugestTitle}"></h:inputText>			
+	</div>		 
+	</div>
+	
+	<div class="containerMetadadoDescritivo">
+	<p class="faixa">Distribution</p>
+			<div style="float: left;">
+			<h:inputText class="texto" id="textoDist" value="#{escolheMetadados.sugestDistribution}"></h:inputText>			
+	</div>		 
+	</div>
+	<div class="containerMetadadoDescritivo">
+	<p class="faixa">Issued</p>
+			<div style="float: left;">
+			<p:calendar style ="font-family: monospace;	font-size: small; color: #d9d9d9;" class="texto" id="textoCalen" value="#{escolheMetadados.issued}" pattern="dd/MM/yyyy"/>			
+	</div>		 
+	</div>
+	
+	<div class="containerMetadadoDescritivo">
+	<p class="faixa">Contact Point</p>
+			<div style="float: left;">
+			<h:inputText class="texto" id="textoCont" value="#{escolheMetadados.contactPoint}"></h:inputText>			
+	</div>		 
+	</div>
+	
+	<div class="containerMetadadoDescritivo">
+	<p class="faixa">Spatial</p>
+			<div style="float: left;">
+			<h:inputText class="texto" id="textoSpat" value="#{escolheMetadados.spatialCoverage}"></h:inputText>			
+	</div>		 
+	</div>
+	
+	<div class="containerMetadadoDescritivo">
+	<p class="faixa">Language</p>
+			<div style="float: left;">
+			<h:inputText class="texto" id="textoLang" value="#{escolheMetadados.language}"></h:inputText>			
+	</div>		 
+	</div>
+	
+	<div class="containerMetadadoDescritivo">
+	<p class="faixa">accrualPeriodicity</p>
+			<div style="float: left;">
+			<h:inputText class="texto" id="textoPer" value="#{escolheMetadados.accrualPeriodicity}"></h:inputText>			
+	</div>		 
+	</div>
  <h:commandButton class="button" value="Generate"  action ="#{escolheMetadados.gerarArquivo()}">	 </h:commandButton>
 </h:form>
 

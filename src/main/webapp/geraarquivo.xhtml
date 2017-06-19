@@ -24,6 +24,7 @@
 		<h:selectOneRadio id="radio" value="#{geraArquivo.langArquivo}">
 			<f:selectItem itemValue="RDF/XML-ABBREV" itemLabel="RDF" />
 			<f:selectItem itemValue="TURTLE" itemLabel="Turtle" />
+			<f:ajax event="click" render="arquivos" listener="#{geraArquivo.changeRadioEvent}"/>
 		</h:selectOneRadio>
 		
 		</h:form>	

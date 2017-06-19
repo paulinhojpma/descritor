@@ -46,47 +46,67 @@ public class RecebeArquivo {
 	private GeradorMetadadosDescritivos gerador;
 	private Arquivo arquivo;
 	
+	
+	
 	public String upload() {
 		InputStream in = null;
 		
-		try {
-			model= ModelFactory.createDefaultModel();
-			if(!uri.isEmpty()){
+		model= ModelFactory.createDefaultModel();
+		if(!uri.isEmpty()){
+			try{
 				//ver depois isso pois não gera extensões
 				 //in = new java.net.URL(URL).openStream();
 				// RDFDataMgr.read(model, in, Lang.TURTLE);
 				 in = new URL(uri).openStream();
-				model.read(uri);				
-				extensao = uri.substring(uri.lastIndexOf("."));
-				nomeArquivo = urlNomeArquivo(uri);
-				
-			}else{
+				//model.read();	
+				 System.out.println("URI----- "+ uri);
+					System.out.println("TIPO DE ARQUIVO----- "+ extensao);
+					nomeArquivo = urlNomeArquivo(uri);
+				 RDFDataMgr.read(model, in, getExtensaoUri());
+				System.out.println("URI----- "+ uri);
+				System.out.println("TIPO DE ARQUIVO----- "+ extensao);
+						
+			}catch(Exception e){
+				System.out.println(e.getCause());
+				System.out.println(e.getMessage());
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "URL informada inválida."));
+			}
+					
+		}else{
+			try{
 				in=fluxo.getInputStream();
 				
-				extensao = fluxo.getSubmittedFileName().substring(fluxo.getSubmittedFileName().lastIndexOf("."));
+				extensao = fluxo.getSubmittedFileName().substring(fluxo.getSubmittedFileName().lastIndexOf(".")+1);
+				
 				System.out.println("TIPO DE ARQUIVO----- "+ extensao);
-				nomeArquivo = fluxo.getSubmittedFileName();
+				
+				nomeArquivo = fluxo.getSubmittedFileName().split("[.]")[0];
 				RDFDataMgr.read(model, in, getExtensao(fluxo));
-				
+			}catch(Exception e){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Arquivo inserido inválido."));
 			}
-			System.out.println("Nome do arquivo -------" +fluxo.getSubmittedFileName());
-			System.out.println("Nome do tipo de  arquivo -------" +fluxo.getName());
-			 	
-				//System.out.println(fluxo.getContentType());
-				
 			
-		
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Erro: Arquivo não pode ser lido");
 		}
-		arquivo = new Arquivo(model, nomeArquivo, extensao, in);
 		
-		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("model", model);
-		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("dataset", arquivo);
-		return "/escolhemetadados?faces-redirect=true";
+		if(extensao.equals("rdf") || extensao.equals("ttl")){
+			
+				System.out.println("Nome do arquivo -------" +nomeArquivo);
+				System.out.println("Nome do tipo de  arquivo -------" + extensao);
+			
+			
+			arquivo = new Arquivo(model, nomeArquivo, extensao, in);
+			
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().put("model", model);
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().put("dataset", arquivo);
+			return "/escolhemetadados?faces-redirect=true";			
+		
+		}else{
+			System.out.println("TIPO DE ARQUIVO----- "+ extensao);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "Arquivo inserido inválido."));
+			return "/index?faces-redirect=true";
+		}
+		
 	  }
 	
 	
@@ -107,6 +127,16 @@ public class RecebeArquivo {
 		}
 		return tipo;
 			
+	}
+	
+	private Lang getExtensaoUri(){
+		
+		if(extensao.equals("rdf")){
+			return  Lang.RDFXML;
+		}else{
+			return Lang.TURTLE;
+		}
+		
 	}
 		
 	private String urlNomeArquivo(String url){
@@ -142,5 +172,15 @@ public class RecebeArquivo {
 
 	public void setUri(String uri) {
 		this.uri = uri;
+	}
+
+
+	public String getExtensao() {
+		return extensao;
+	}
+
+
+	public void setExtensao(String extensao) {
+		this.extensao = extensao;
 	}
 }

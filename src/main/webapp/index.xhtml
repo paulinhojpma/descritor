@@ -14,17 +14,34 @@
  
 </h:head>
 <h:body>
-<h:messages errorStyle="color:red" infoStyle="color:blue" autoUpdate="true" closable="true" style="font-size: 12px; margin-left: 250px; background:  #ffff66" for="form:file" />
+<h:messages errorStyle="color:red" autoUpdate="true" closable="true" style="font-size: 12px; margin-left: 250px; background:  #ffff66"  />
 
 
-
+<h1>Descritor</h1>
 
 <h:form   id="form" enctype="multipart/form-data">
+<div>
 <p class="faixa">RDF file</p>
   <h:inputFile  class="file" id="file" value="#{recebeArquivo.fluxo}"    />
-  <h:inputText id="text" value="#{recebeArquivo.uri}">Insira a URL</h:inputText>
+  <br/>
+<br/>
+  
+  <h:commandButton class="button" value="Upload"      action="#{recebeArquivo.upload}"/>
+  <br/>
+
+</div>
+
+<div style="margin-top: 30px; height: 200px;">
+<p class="faixa">RDF URL</p>
+    URL: 
+  <h:inputText id="textUrl" class="inputText" value="#{recebeArquivo.uri}"></h:inputText>
+  <h:selectOneRadio value="#{recebeArquivo.extensao}">
+   	<f:selectItem itemValue="rdf" itemLabel="RDF/XML" />
+   	<f:selectItem itemValue="ttl" itemLabel="Turtle" />
+</h:selectOneRadio>
   <br/>
   <h:commandButton class="button" value="Upload"      action="#{recebeArquivo.upload}"/>
+</div>
 </h:form>
 
 </h:body>

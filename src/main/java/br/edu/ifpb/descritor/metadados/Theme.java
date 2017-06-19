@@ -15,37 +15,42 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Theme implements MetadadoDescritivo{
-		private String tema;
+		private List<String> temas;
 		private List<String> palpites=new ArrayList<String>();
 		private Map<String, String> uri= new HashMap<String, String>();
+	
+	
 	public List<String> gerarPalpite(){
 		try {
-			System.out.println("TEMA A PESQUISAR ----------"+tema);
-			URL url = new URL("http://lov.okfn.org/dataset/lov/api/v2/term/search?q="+tema+"&type=class");
-			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.connect();
-			int code = connection.getResponseCode();
-			//System.out.println(code);
-			//System.out.println(connection.getResponseMessage());
-			
-			
-			
+			//System.out.println("TEMA A PESQUISAR ----------"+tema);
+			for(String tema: this.temas){
+				URL url = new URL("http://lov.okfn.org/dataset/lov/api/v2/term/search?q="+tema+"&type=class");
+				HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+				connection.setRequestMethod("GET");
+				connection.connect();
+				int code = connection.getResponseCode();
+				//System.out.println(code);
+				//System.out.println(connection.getResponseMessage());
+
+			    String arquivo = geraString(connection.getInputStream());
+			    JSONObject my_obj = new JSONObject(arquivo);
+			    //System.out.println(my_obj);
+			    JSONArray arr = my_obj.getJSONArray("results");
+			    System.out.println("tema --------");
+			    if(arr.length()>=2){
+			    	for(int i=0;i< 2 ;i++){
+				    	System.out.println(arr.getJSONObject(i).getJSONArray("prefixedName").get(0));
+				    	palpites.add(arr.getJSONObject(i).getJSONArray("prefixedName").get(0).toString());
+				    	uri.put(arr.getJSONObject(i).getJSONArray("prefixedName").get(0).toString(), arr.getJSONObject(i).getJSONArray("uri").get(0).toString());
+				    	
+				    }
+			    }
+			    
+			}	
 			
 		   
 		    
-		    String arquivo = geraString(connection.getInputStream());
-		    JSONObject my_obj = new JSONObject(arquivo);
-		    //System.out.println(my_obj);
-		    JSONArray arr = my_obj.getJSONArray("results");
-		  System.out.println("tema --------");
-		    
-		    for(int i=0;i<arr.length();i++){
-		    	System.out.println(arr.getJSONObject(i).getJSONArray("prefixedName").get(0));
-		    	palpites.add(arr.getJSONObject(i).getJSONArray("prefixedName").get(0).toString());
-		    	uri.put(arr.getJSONObject(i).getJSONArray("prefixedName").get(0).toString(), arr.getJSONObject(i).getJSONArray("uri").get(0).toString());
-		    	
-		    }
+		 
 			
 			
 			
@@ -57,11 +62,11 @@ public class Theme implements MetadadoDescritivo{
 
 		return palpites;
 	}
-	public String getTema() {
-		return tema;
+	public List<String> getTemas() {
+		return temas;
 	}
-	public void setTema(String tema) {
-		this.tema = tema;
+	public void setTemas(List<String> temas) {
+		this.temas = temas;
 	}
 	
 	private String geraString(InputStream input){

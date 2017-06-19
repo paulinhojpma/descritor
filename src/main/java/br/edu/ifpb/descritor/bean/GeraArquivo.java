@@ -6,6 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -47,16 +50,9 @@ public class GeraArquivo {
 	}
 
 	private String gerarConteudo(Map<String, List<String>> arquivo){
-		/*String conteudo = "";
-				for(String key: arquivo.keySet()){
-					for(String valores: arquivo.get(key)){
-						conteudo+=valores+"\n";
-					}
-				}
-		*/
+		System.out.println("FORMATO RETORNADO ---"+ dataset.getFormato());
 		
-		
-		if(dataset.getFormato().equals(".rdf")){
+		if(dataset.getFormato().equals("rdf")){
 			langArquivo = "RDF/XML-ABBREV"; // also try "N-TRIPLE" and "TURTLE"
 		}else{
 			langArquivo = "TURTLE"; // also try "N-TRIPLE" and "TURTLE"
@@ -69,31 +65,33 @@ public class GeraArquivo {
 		
 		return result;
 	}
-	
+	public void changeRadioEvent(){
+		System.out.println("Entrou no evento do RADIO");
+		System.out.println("Tipo de arquivo ---" + langArquivo);
+		StringWriter out = new StringWriter();
+		novoModel.write(out, langArquivo);
+		conteudo = out.toString();
+		System.out.println(conteudo);
+	}
 	public void downloadFile(){
 		FacesContext fc = FacesContext.getCurrentInstance();
 	    ExternalContext ec = fc.getExternalContext();
 		
-		String fileName= "Descritivo"+dataset.getFilename();
-		//FileWriter out = null;
-		/*try {
-			 out = new FileWriter(fileName);
-			 novoModel.write( out, langArquivo );
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("DEU ERRO NA GERAÇÃO DO ARQUIVO");
+		String fileName= "";
+		if(this.langArquivo.equals("TURTLE")){
+			fileName= "Descritivo"+dataset.getFilename()+".ttl";
+			
+		}else{
+			fileName= "Descritivo"+dataset.getFilename()+".rdf";
 		}
-		finally {
-			   try {
-			       out.close();
-			   }
-			   catch (IOException closeException) {
-			       // ignore
-			   }
-			}*/
+		
+	
 		
 		 ec.responseReset();
-		 ec.setResponseContentType("application/rdf+xml");
+		
+			 ec.setResponseContentType("application/rdf+xml");
+		
+		 
 		 ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 		 try {
 			OutputStream  out = ec.getResponseOutputStream();
@@ -150,13 +148,41 @@ public class GeraArquivo {
 			propriedade = novoModel.createProperty("http://vocab.deri.ie/dcat#theme");
 			nodeRaiz.addProperty(propriedade, nodo);
 		}else{
-			if(!arquivo.get("theme").get(0).equals("")){
+			if(!arquivo.get("theme").get(0).equals("") ){
 				propriedade = novoModel.createProperty("http://vocab.deri.ie/dcat#theme");
 				nodeRaiz.addProperty(propriedade, arquivo.get("theme").get(0));
 			}
 		}
+		propriedade = novoModel.createProperty("http://purl.org/dc/terms/"+ "title");
+		nodeRaiz.addProperty(propriedade, arquivo.get("title").get(0));
+		propriedade = novoModel.createProperty("http://vocab.deri.ie/dcat#distribution");
+		nodeRaiz.addProperty(propriedade, arquivo.get("distribution").get(0));
+		if(!arquivo.get("issued").isEmpty() && !arquivo.get("issued").get(0).equals("") && arquivo.get("issued").get(0) != null){
+			
+			
+			
+			propriedade = novoModel.createProperty("http://purl.org/dc/terms/"+ "issued");
+			nodeRaiz.addProperty(propriedade, arquivo.get("issued").get(0) );
+		}
+		if(!arquivo.get("contactPoint").isEmpty() && !arquivo.get("contactPoint").get(0).equals("") && arquivo.get("contactPoint").get(0) != null){
+			propriedade = novoModel.createProperty("http://vocab.deri.ie/dcat#"+ "contactPoint");
+			nodeRaiz.addProperty(propriedade, arquivo.get("contactPoint").get(0));
+		}
+		if(!arquivo.get("spatialCoverage").isEmpty() && !arquivo.get("spatialCoverage").get(0).equals("") && arquivo.get("spatialCoverage").get(0) !=null){
+			propriedade = novoModel.createProperty("http://purl.org/dc/terms/"+ "spatialCoverage");
+			nodeRaiz.addProperty(propriedade, arquivo.get("spatialCoverage").get(0));
+		}
+		if(!arquivo.get("language").isEmpty() && !arquivo.get("language").get(0).equals("") && arquivo.get("language").get(0) != null){
+			propriedade = novoModel.createProperty("http://purl.org/dc/terms/"+ "language");
+			nodeRaiz.addProperty(propriedade, arquivo.get("language").get(0));
+		}
+		if(!arquivo.get("accrualPeriodicity").isEmpty() && !arquivo.get("accrualPeriodicity").get(0).equals("") && arquivo.get("accrualPeriodicity").get(0) !=null){
+			propriedade = novoModel.createProperty("http://purl.org/dc/terms/"+ "accrualPeriodicity");
+			nodeRaiz.addProperty(propriedade, arquivo.get("accrualPeriodicity").get(0));
+		}
 		
 		
+		//http://purl.org/dc/terms/ 
 		//nodeRaiz.addProperty(propriedade, "pulin");
 		//nodeRaiz.addProperty(propriedade, arg1)
 	}
